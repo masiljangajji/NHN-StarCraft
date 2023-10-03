@@ -1,4 +1,4 @@
 package org.nhnacademy.model.type.unitType;
 
-public interface ProtosUnit extends UnitType{
+public interface UnitType {
 }

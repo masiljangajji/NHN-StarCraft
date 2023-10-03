@@ -2,7 +2,12 @@ package org.nhnacademy.model.type.unitType;
 
 public class Unit {
 
+    private Unit() {
+    }
+
     private int damage;
+
+    private int defense;
 
 
     public void takeDamage(int damage) {
@@ -24,14 +29,9 @@ public class Unit {
         return true;
     }
 
-
-    private int defense;
-
     public Unit(int damage, int defense) {
         this.damage = damage;
         this.defense = defense;
-        //this.flyableAttack = flyableAttack;
     }
-
 
 }

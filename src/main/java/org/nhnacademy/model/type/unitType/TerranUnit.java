@@ -1,4 +1,6 @@
 package org.nhnacademy.model.type.unitType;
 
-public interface TerranUnit {
+public interface TerranUnit extends UnitType{
+
+
 }
