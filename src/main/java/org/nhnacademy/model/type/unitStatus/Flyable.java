@@ -1,4 +1,4 @@
-package org.nhnacademy.model.type.unitType;
+package org.nhnacademy.model.type.unitStatus;
 
 public interface Flyable {
 }
