@@ -10,12 +10,6 @@ public class PlayGame {
 
 
     /**
-     * 종족 선택
-     * <p>
-     * 종족에 따라 무작위로 유닛 생성
-     * <p>
-     * 컴퓨터 종족은 무작위 선택
-     * <p>
      * 적군과 아군 유닛 표시
      * <p>
      * 공격을 실행할 유닛과 받을 유닛 선택
@@ -38,16 +32,22 @@ public class PlayGame {
         try {
             num = sc.nextInt();
 
-            if (num < 0 || num > 3) {
+            if (num < 1 || num > 3) {
                 throw new IllegalArgumentException();
             }
 
-        } catch (InputMismatchException | IllegalArgumentException e) {
-            logger.warn("{}", e.getMessage());
+        } catch (IllegalArgumentException e) {
             logger.warn("{}", Message.INPUT_ERROR);
             logger.info("{}", Message.RETRY_INPUT);
             pickTribe();
+        } catch (InputMismatchException e) {
+            logger.warn("{}", Message.ONLY_NUMBER);
+            logger.info("{}", Message.RETRY_INPUT);
+            sc.nextLine();
+            pickTribe();
         }
+
+
         return num;
     }
 
