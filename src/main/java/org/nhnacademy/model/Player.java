@@ -8,13 +8,16 @@ import org.nhnacademy.model.type.unitType.TerranUnit;
 import org.nhnacademy.model.type.unitType.Unit;
 import org.nhnacademy.model.type.unitType.UnitType;
 import org.nhnacademy.view.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Player {
 
 
+    private static final Logger logger = LoggerFactory.getLogger(Player.class);
     private final UnitType unitType;
 
-    private final List<Unit> list = new ArrayList<>();
+    private final List<Unit> unitList = new ArrayList<>();
 
 
     public Player(UnitType unitType) {
@@ -22,8 +25,38 @@ public class Player {
     }
 
 
-    public void generateUnitList() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public boolean generatePlayerUnit() {
 
+        List<Unit> unitList;
+
+        try {
+            if (unitType instanceof ProtosUnit) {
+                unitList = generateUnitList(Message.PROTOS_UNIT_PATH.toString(),
+                        Message.PROTOS_UNIT_CLASS_PATH.toString());
+            } else if (unitType instanceof TerranUnit) {
+                unitList = generateUnitList(Message.TERRAN_UNIT_PATH.toString(),
+                        Message.TERRAN_UNIT_CLASS_PATH.toString());
+            } else {
+                unitList = generateUnitList(Message.ZERG_UNIT_PATH.toString(), Message.ZERG_UNIT_CLASS_PATH.toString());
+            }
+
+            for (int i = 0; i < unitList.size(); i++) {
+                int randomIndex = (int) (Math.random() * unitList.size() - 1);
+                this.unitList.add(unitList.get(randomIndex));
+            }
+
+            return true;
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            logger.warn("{}", e.getMessage());
+            logger.info("{}", Message.END_PROGRAMING);
+        }
+
+        return false;
+    }
+
+    public List<Unit> generateUnitList(String unitPath, String classPath)
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 
         File file;
 
@@ -31,76 +64,21 @@ public class Player {
 
         List<Unit> unitList = new ArrayList<>();
 
-        if (this.unitType instanceof ProtosUnit) {
-            file = new File(Message.PROTOS_UNIT_PATH.toString());
-            unitArray = file.list();
-
-            for (int i = 0; i < unitArray.length; i++) {
-
-                String unitName = unitArray[i].substring(0, unitArray[i].length() - 5);
-
-                Class converObject = Class.forName(Message.PROTOS_UNIT_CLASS_PATH.toString() + unitName);
-                Object object = converObject.newInstance();
-
-                unitList.add((Unit) object);
-            }
-
-            for (int i = 0; i < 5; i++) {
-
-                int index = (int) (Math.random() * unitList.size() - 1);
-                this.list.add(unitList.get(index));
-            }
-
-            return;
-
-        }
-
-        if (this.unitType instanceof TerranUnit) {
-            file = new File(Message.TERRAN_UNIT_PATH.toString());
-            unitArray = file.list();
-
-            for (int i = 0; i < unitArray.length; i++) {
-
-                String unitName = unitArray[i].substring(0, unitArray[i].length() - 5);
-
-                Class converObject = Class.forName(Message.TERRAN_UNIT_CLASS_PATH.toString().toString() + unitName);
-                Object object = converObject.newInstance();
-
-                unitList.add((Unit) object);
-            }
-
-            for (int i = 0; i < 4; i++) {
-
-                int index = (int) (Math.random() * unitList.size() - 1);
-                this.list.add(unitList.get(index));
-            }
-
-
-            return;
-
-        }
-
-
-        file = new File(Message.ZERG_UNIT_PATH.toString());
+        file = new File(unitPath);
         unitArray = file.list();
 
         for (int i = 0; i < unitArray.length; i++) {
 
             String unitName = unitArray[i].substring(0, unitArray[i].length() - 5);
 
-            Class converObject = Class.forName(Message.ZERG_UNIT_CLASS_PATH.toString().toString() + unitName);
+            Class converObject = Class.forName(classPath + unitName);
             Object object = converObject.newInstance();
 
             unitList.add((Unit) object);
+
         }
 
-        for (int i = 0; i < 8; i++) {
-
-            int index = (int) (Math.random() * unitList.size() - 1);
-            this.list.add(unitList.get(index));
-        }
-
-
+        return unitList;
     }
 
 
