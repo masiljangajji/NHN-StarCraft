@@ -7,6 +7,7 @@ import org.nhnacademy.model.type.unitType.ProtosUnit;
 import org.nhnacademy.model.type.unitType.TerranUnit;
 import org.nhnacademy.model.type.unitType.Unit;
 import org.nhnacademy.model.type.unitType.UnitType;
+import org.nhnacademy.model.type.unitType.ZergUnit;
 import org.nhnacademy.view.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,8 +21,19 @@ public class Player {
     private final List<Unit> unitList = new ArrayList<>();
 
 
-    public Player(UnitType unitType) {
-        this.unitType = unitType;
+    public Player(int tribeSelector) {
+
+        if (tribeSelector == 1) {
+            this.unitType = new TerranUnit() {
+            };
+        } else if (tribeSelector == 2) {
+            this.unitType = new ZergUnit() {
+            };
+        } else {
+            this.unitType = new ProtosUnit() {
+            };
+        }
+
     }
 
 
