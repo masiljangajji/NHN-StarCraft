@@ -1,4 +1,4 @@
 package org.nhnacademy.model.type.attackType;
 
-public interface Missile {
+public interface Missile extends FlyableAttack{
 }

@@ -1,4 +1,4 @@
 package org.nhnacademy.model.type.attackType;
 
-public interface Needle {
+public interface Needle extends FlyableAttack{
 }

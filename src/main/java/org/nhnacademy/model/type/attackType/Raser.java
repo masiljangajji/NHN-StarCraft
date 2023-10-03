@@ -1,4 +1,4 @@
 package org.nhnacademy.model.type.attackType;
 
-public interface Raser {
+public interface Raser extends FlyableAttack{
 }
