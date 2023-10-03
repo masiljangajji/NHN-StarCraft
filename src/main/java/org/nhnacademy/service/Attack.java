@@ -2,9 +2,9 @@ package org.nhnacademy.service;
 
 import org.nhnacademy.model.type.attackType.FlyableAttack;
 import org.nhnacademy.model.type.attackType.NonFlyableAttack;
-import org.nhnacademy.model.type.unitType.Flyable;
-import org.nhnacademy.model.type.unitType.NonFlyable;
-import org.nhnacademy.model.type.unitType.Unit;
+import org.nhnacademy.model.type.unitStatus.Flyable;
+import org.nhnacademy.model.type.unitStatus.NonFlyable;
+import org.nhnacademy.model.unit.Unit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
