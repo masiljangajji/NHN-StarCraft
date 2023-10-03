@@ -1,7 +1,7 @@
 package org.nhnacademy.model.unit.zergUnit;
 
 import org.nhnacademy.model.type.attackType.NonFlyableAttack;
-import org.nhnacademy.model.type.unitType.NonFlyable;
+import org.nhnacademy.model.type.unitStatus.NonFlyable;
 import org.nhnacademy.model.type.unitType.Unit;
 import org.nhnacademy.model.type.unitType.ZergUnit;
 
