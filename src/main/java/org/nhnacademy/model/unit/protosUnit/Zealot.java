@@ -7,6 +7,6 @@ import org.nhnacademy.model.type.unitType.Unit;
 
 public class Zealot extends Unit implements NonFlyable, NonFlyableAttack, ProtosUnit {
     public Zealot() {
-        super(2, 2);
+        super(5, 20);
     }
 }
