@@ -8,16 +8,6 @@ public enum Message {
     INPUT_RANGE_ERROR("입력 범위를 벗어났습니다!"),
 
     RETRY_INPUT("다시 입력해 주세요"),
-
-    PROTOS_UNIT_PATH("src/main/java/org/nhnacademy/model/unit/protosUnit/"),
-    ZERG_UNIT_PATH("src/main/java/org/nhnacademy/model/unit/zergUnit/"),
-    TERRAN_UNIT_PATH("src/main/java/org/nhnacademy/model/unit/terranUnit/"),
-
-
-    PROTOS_UNIT_CLASS_PATH("org.nhnacademy.model.unit.protosUnit."),
-    ZERG_UNIT_CLASS_PATH("org.nhnacademy.model.unit.zergUnit."),
-    TERRAN_UNIT_CLASS_PATH("org.nhnacademy.model.unit.terranUnit."),
-
     END_PROGRAMING("Error로 인해 프로그램이 종료됩니다."),
 
     ONLY_NUMBER("입력은 숫자만 가능합니다 !"),

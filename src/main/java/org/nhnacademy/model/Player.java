@@ -10,6 +10,7 @@ import org.nhnacademy.model.type.unitType.UnitType;
 import org.nhnacademy.model.type.unitType.ZergUnit;
 import org.nhnacademy.model.unit.Unit;
 import org.nhnacademy.view.Message;
+import org.nhnacademy.view.Path;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,8 +79,8 @@ public class Player {
         try {
             if (unitType instanceof ProtosUnit) {
 
-                classPath = Message.PROTOS_UNIT_CLASS_PATH.toString();
-                unitPath = Message.PROTOS_UNIT_PATH.toString();
+                classPath = Path.PROTOS_UNIT_CLASS_PATH.toString();
+                unitPath = Path.PROTOS_UNIT_PATH.toString();
 
                 file = new File(unitPath);
                 unitArray = file.list();
@@ -99,8 +100,8 @@ public class Player {
 
             } else if (unitType instanceof TerranUnit) {
 
-                classPath = Message.TERRAN_UNIT_CLASS_PATH.toString();
-                unitPath = Message.TERRAN_UNIT_PATH.toString();
+                classPath = Path.TERRAN_UNIT_CLASS_PATH.toString();
+                unitPath = Path.TERRAN_UNIT_PATH.toString();
 
                 file = new File(unitPath);
                 unitArray = file.list();
@@ -118,8 +119,8 @@ public class Player {
 
             } else {
 
-                classPath = Message.ZERG_UNIT_CLASS_PATH.toString();
-                unitPath = Message.ZERG_UNIT_PATH.toString();
+                classPath = Path.ZERG_UNIT_CLASS_PATH.toString();
+                unitPath = Path.ZERG_UNIT_PATH.toString();
 
                 file = new File(unitPath);
                 unitArray = file.list();

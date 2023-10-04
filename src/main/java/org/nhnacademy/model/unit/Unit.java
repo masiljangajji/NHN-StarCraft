@@ -2,9 +2,6 @@ package org.nhnacademy.model.unit;
 
 public class Unit {
 
-    private Unit() {
-    }
-
     private int damage;
 
     private int defense;
@@ -28,7 +25,7 @@ public class Unit {
         return true;
     }
 
-    public Unit(int damage, int defense) {
+    protected Unit(int damage, int defense) {
         this.damage = damage;
         this.defense = defense;
     }
