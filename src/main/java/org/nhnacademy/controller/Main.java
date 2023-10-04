@@ -1,47 +1,73 @@
 package org.nhnacademy.controller;
 
+
 import java.util.Scanner;
+import org.nhnacademy.model.Player;
+import org.nhnacademy.service.PlayGame;
+import org.nhnacademy.view.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Hello world!
- *
  */
-public class PlayGame {
+public class Main {
 
-    private static final Logger logger = LoggerFactory.getLogger(PlayGame.class);
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     private static final Scanner sc = new Scanner(System.in);
-    public static void main( String[] args ) {
+
+    public static void main(String[] args) {
 
 
+        Player player = new Player(PlayGame.pickTribe());
 
-        /**
-         *
-         * 종족 선택
-         *
-         * 종족에 따라 무작위로 유닛 생성
-         *
-         * 컴퓨터 종족은 무작위 선택
-         *
-         * 적군과 아군 유닛 표시
-         *
-         * 공격을 실행할 유닛과 받을 유닛 선택
-         *
-         * 컴퓨터는 무작위로 공격을 수행
-         *
-         * 적군의 모든 유닛을 파괴하면 승리
-         *
-         */
+        Player computer = new Player((int) (Math.random() * 3 + 1));
 
+        if (!player.generateRandomUnit() || !computer.generateRandomUnit()) {
+            return;
+        }
+
+        while (true) {
+
+            PlayGame.printUnitList(player, computer);
+
+            boolean playerAttackCheck;
+            boolean computerAttackCheck;
+
+            if (PlayGame.losdByDecisionPlayer(player, computer)) {
+                break;
+            }
+
+            do {
+                playerAttackCheck = PlayGame.playerAttack(player, computer);
+            } while (!playerAttackCheck);
+
+            if (computer.hasNoUnit()) {
+                logger.info("{}", Message.COMPUTER_LOSE);
+                break;
+            }
+
+            if (PlayGame.loseByDecisionComputer(player, computer)) {
+                break;
+            }
+
+
+            do {
+                computerAttackCheck = PlayGame.computerAttack(player, computer);
+            } while (!computerAttackCheck);
+
+
+            if (player.hasNoUnit()) {
+                logger.info("{}", Message.PLAYER_LOSE);
+                break;
+            }
+
+
+        }
+
+        logger.info("{}", Message.END_GAME);
     }
 
-    public static int pickTribe(){
-        logger.info("3가지 종족 중 하나를 선택해 주세요");
-
-
-
-    }
 
 }
