@@ -18,9 +18,7 @@ public class Player {
 
     private static final Logger logger = LoggerFactory.getLogger(Player.class);
     private final UnitType unitType;
-
-
-    List<Unit> unitList;
+    private final List<Unit> unitList;
 
     public boolean hasNoUnit() {
         return this.unitList.isEmpty();

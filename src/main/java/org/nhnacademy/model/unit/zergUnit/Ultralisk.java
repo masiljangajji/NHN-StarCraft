@@ -11,9 +11,6 @@ public class Ultralisk extends Unit implements NonFlyable, NonFlyableAttack, Zer
         super(5, 15);
     }
 
-    public Ultralisk setObject(){
-        return new Ultralisk();
-    }
 
 
 }

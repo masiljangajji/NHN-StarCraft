@@ -11,8 +11,5 @@ public class Corsair extends Unit implements Flyable, FlyableAttack, ProtosUnit 
         super(4, 12);
     }
 
-    public Corsair setObject(){
-        return new Corsair();
-    }
 
 }

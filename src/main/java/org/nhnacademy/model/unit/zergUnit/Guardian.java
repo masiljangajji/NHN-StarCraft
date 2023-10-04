@@ -10,8 +10,5 @@ public class Guardian extends Unit implements Flyable, FlyableAttack, ZergUnit {
         super(3, 6);
     }
 
-    public Guardian setObject(){
-        return new Guardian();
-    }
 
 }

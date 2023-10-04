@@ -10,8 +10,5 @@ public class Goliat extends Unit implements NonFlyable, Missile, TerranUnit {
         super(5, 15);
     }
 
-    public Goliat setObject(){
-        return new Goliat();
-    }
 
 }

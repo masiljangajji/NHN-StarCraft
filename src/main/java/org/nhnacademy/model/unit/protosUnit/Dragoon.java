@@ -11,8 +11,5 @@ public class Dragoon extends Unit implements NonFlyable, Raser, ProtosUnit {
         super(3, 15);
     }
 
-    public Dragoon setObject(){
-        return new Dragoon();
-    }
 
 }

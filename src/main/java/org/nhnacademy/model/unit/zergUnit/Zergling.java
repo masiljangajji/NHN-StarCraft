@@ -11,9 +11,6 @@ public class Zergling extends Unit implements NonFlyable, NonFlyableAttack, Zerg
     }
 
 
-    public Zergling setObject() {
-        return new Zergling();
-    }
 
 
 }

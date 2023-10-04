@@ -10,9 +10,6 @@ public class Zealot extends Unit implements NonFlyable, NonFlyableAttack, Protos
         super(5, 20);
     }
 
-    public Zealot setObject(){
-        return new Zealot();
-    }
 
 
 

@@ -11,9 +11,6 @@ public class HighTempler extends Unit implements NonFlyable, NonFlyableAttack, P
     public HighTempler() {
         super(10, 2);
     }
-    public HighTempler setObject(){
-        return new HighTempler();
-    }
 
 
 }
