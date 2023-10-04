@@ -7,7 +7,7 @@ import org.nhnacademy.model.unit.Unit;
 
 public class Tank extends Unit implements NonFlyable, NonFlyableAttack, TerranUnit {
     public Tank() {
-        super(7, 15,false);
+        super(7, 15);
     }
 
 

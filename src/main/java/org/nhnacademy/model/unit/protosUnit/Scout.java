@@ -8,6 +8,12 @@ import org.nhnacademy.model.unit.Unit;
 
 public class Scout extends Unit implements Flyable, FlyableAttack, ProtosUnit {
     public Scout() {
-        super(5, 10,true);
+        super(5, 10);
     }
+
+    public Scout setObject(){
+        return new Scout();
+    }
+
+
 }

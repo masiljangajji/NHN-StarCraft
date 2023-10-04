@@ -8,6 +8,10 @@ import org.nhnacademy.model.type.unitType.ZergUnit;
 
 public class Hydralisk extends Unit implements NonFlyable, Needle, ZergUnit {
     public Hydralisk() {
-        super(3, 7,true);
+        super(3, 7);
     }
+    public Hydralisk setObject(){
+        return new Hydralisk();
+    }
+
 }

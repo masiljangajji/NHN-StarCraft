@@ -9,6 +9,11 @@ import org.nhnacademy.model.unit.Unit;
 
 public class HighTempler extends Unit implements NonFlyable, NonFlyableAttack, ProtosUnit {
     public HighTempler() {
-        super(10, 2,false);
+        super(10, 2);
     }
+    public HighTempler setObject(){
+        return new HighTempler();
+    }
+
+
 }

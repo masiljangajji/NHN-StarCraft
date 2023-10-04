@@ -8,6 +8,12 @@ import org.nhnacademy.model.type.unitType.ZergUnit;
 
 public class Mutalisk extends Unit implements Flyable, FlyableAttack, ZergUnit {
     public Mutalisk() {
-        super(2, 8,true);
+        super(2, 8);
     }
+
+    public Mutalisk setObject(){
+        return new Mutalisk();
+    }
+
+
 }

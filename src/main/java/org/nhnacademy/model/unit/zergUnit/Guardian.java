@@ -7,6 +7,11 @@ import org.nhnacademy.model.type.unitType.ZergUnit;
 
 public class Guardian extends Unit implements Flyable, FlyableAttack, ZergUnit {
     public Guardian() {
-        super(3, 6,true);
+        super(3, 6);
     }
+
+    public Guardian setObject(){
+        return new Guardian();
+    }
+
 }

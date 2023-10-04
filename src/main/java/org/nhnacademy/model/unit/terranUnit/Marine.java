@@ -8,10 +8,8 @@ import org.nhnacademy.model.unit.Unit;
 public class Marine extends Unit implements NonFlyableAttack, NonFlyable, TerranUnit {
 
     public Marine() {
-        super(3, 10,false);
+        super(3, 10);
     }
-
-
 
 
 }

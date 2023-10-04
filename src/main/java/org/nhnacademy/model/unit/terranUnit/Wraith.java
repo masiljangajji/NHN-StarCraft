@@ -7,7 +7,7 @@ import org.nhnacademy.model.unit.Unit;
 
 public class Wraith extends Unit implements Flyable, FlyableAttack, TerranUnit {
     public Wraith() {
-        super(3, 10, true);
+        super(3, 10);
     }
 
 

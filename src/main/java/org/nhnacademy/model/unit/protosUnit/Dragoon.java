@@ -8,6 +8,11 @@ import org.nhnacademy.model.unit.Unit;
 
 public class Dragoon extends Unit implements NonFlyable, Raser, ProtosUnit {
     public Dragoon() {
-        super(3, 15,true);
+        super(3, 15);
     }
+
+    public Dragoon setObject(){
+        return new Dragoon();
+    }
+
 }

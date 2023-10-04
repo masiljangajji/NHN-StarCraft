@@ -8,6 +8,11 @@ import org.nhnacademy.model.unit.Unit;
 
 public class Corsair extends Unit implements Flyable, FlyableAttack, ProtosUnit {
     public Corsair() {
-        super(4, 12,true);
+        super(4, 12);
     }
+
+    public Corsair setObject(){
+        return new Corsair();
+    }
+
 }

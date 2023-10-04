@@ -7,7 +7,7 @@ import org.nhnacademy.model.unit.Unit;
 
 public class Goliat extends Unit implements NonFlyable, Missile, TerranUnit {
     public Goliat() {
-        super(5, 15,true);
+        super(5, 15);
     }
 
     public Goliat setObject(){

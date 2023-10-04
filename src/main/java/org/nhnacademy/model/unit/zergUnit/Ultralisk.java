@@ -8,6 +8,12 @@ import org.nhnacademy.model.type.unitType.ZergUnit;
 
 public class Ultralisk extends Unit implements NonFlyable, NonFlyableAttack, ZergUnit {
     public Ultralisk() {
-        super(5, 15,false);
+        super(5, 15);
     }
+
+    public Ultralisk setObject(){
+        return new Ultralisk();
+    }
+
+
 }

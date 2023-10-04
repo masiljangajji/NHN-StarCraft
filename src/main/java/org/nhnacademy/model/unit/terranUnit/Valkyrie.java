@@ -8,7 +8,7 @@ import org.nhnacademy.model.unit.Unit;
 public class Valkyrie extends Unit implements Flyable, FlyableAttack, TerranUnit {
 
     public Valkyrie() {
-        super(4, 12,true);
+        super(4, 12);
     }
 
 }

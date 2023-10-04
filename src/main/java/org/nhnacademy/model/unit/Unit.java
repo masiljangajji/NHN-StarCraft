@@ -9,20 +9,8 @@ public class Unit {
 
     private int defense;
 
-    private boolean attackFlyable;
-
-    public boolean isFlyable() {
-        return flyable;
-    }
-
-    private boolean flyable;
-
-    public boolean isAttackFlyable() {
-        return attackFlyable;
-    }
-
     public void takeDamage(int damage) {
-        this.defense = this.defense - damage;
+        this.defense -= damage;
     }
 
     public int getDamage() {
@@ -40,11 +28,9 @@ public class Unit {
         return true;
     }
 
-    public Unit(int damage, int defense, boolean attackFlyable, boolean flyable) {
+    public Unit(int damage, int defense) {
         this.damage = damage;
         this.defense = defense;
-        this.attackFlyable = attackFlyable;
-        this.flyable = flyable;
     }
 
     @Override
