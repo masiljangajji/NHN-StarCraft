@@ -13,6 +13,7 @@ public enum Message {
     ZERG_UNIT_PATH("src/main/java/org/nhnacademy/model/unit/zergUnit/"),
     TERRAN_UNIT_PATH("src/main/java/org/nhnacademy/model/unit/terranUnit/"),
 
+
     PROTOS_UNIT_CLASS_PATH("org.nhnacademy.model.unit.protosUnit."),
     ZERG_UNIT_CLASS_PATH("org.nhnacademy.model.unit.zergUnit."),
     TERRAN_UNIT_CLASS_PATH("org.nhnacademy.model.unit.terranUnit."),
@@ -27,7 +28,13 @@ public enum Message {
     ATTACK_MESSAGE("공격을 수행할 아군 유닛과 공격할 적군 유닛을 선택하세요"),
 
     SELECT_PLAYER_UNIT("공격할 아군 유닛을 선택해 주세요"),
-    SELECT_ENEMY_UNIT("공격할 적군 유닛을 선택해 주세요");
+    SELECT_ENEMY_UNIT("공격할 적군 유닛을 선택해 주세요"),
+    PLAYER_LOSE("Player의 모든 Unit이 파괴 됐습니다!\nPlayer 패배"),
+    COMPUTER_LOSE("Computer의 모든 Unit이 파괴 됐습니다\nComputer 패배"),
+    END_GAME("게임을 종료합니다."),
+
+    PLAYER_DESICION_LOSE("플레이어가 공격 할 수 있는 유닛이 없습니다.\nPlayer 패배"),
+    COMPUTER_DESICION_LOSE("컴퓨터가 공격 할 수 있는 유닛이 없습니다\nComputer 패배");
 
     private final String message;
 
