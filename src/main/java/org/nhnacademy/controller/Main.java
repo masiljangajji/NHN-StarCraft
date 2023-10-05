@@ -35,7 +35,7 @@ public class Main {
             boolean playerAttackCheck;
             boolean computerAttackCheck;
 
-            if (PlayGame.losdByDecisionPlayer(player, computer)) {
+            if (PlayGame.losdByDecisionCheck(player, computer, Message.PLAYER_DESICION_LOSE.toString())) {
                 break;
             }
 
@@ -48,7 +48,7 @@ public class Main {
                 break;
             }
 
-            if (PlayGame.loseByDecisionComputer(player, computer)) {
+            if (PlayGame.losdByDecisionCheck(computer, player, Message.COMPUTER_DESICION_LOSE.toString())) {
                 break;
             }
 

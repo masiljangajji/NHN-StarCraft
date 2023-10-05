@@ -89,6 +89,7 @@ public class PlayGame {
             return false;
         }
 
+
         logger.info("\nPlayer의 {}이(가) Computer의 {}을(를) 공격했습니다   남은 방어력{}", attackUnit.getClass().getSimpleName(),
                 defenseUnit.getClass().getSimpleName(), defenseUnit.getDefense());
 
@@ -178,12 +179,12 @@ public class PlayGame {
         return computerUnitIndex - 1;
     }
 
-    public static boolean losdByDecisionPlayer(Player player, Player computer) {
+    public static boolean losdByDecisionCheck(Player player, Player opponent,String message) {
 
         boolean isFlyableAttackUnit = false;
 
-        for (int i = 0; i < computer.getUnitListSize(); i++) {
-            Unit unit = computer.getUnitByListIndex(i);
+        for (int i = 0; i < opponent.getUnitListSize(); i++) {
+            Unit unit = opponent.getUnitByListIndex(i);
 
             if (unit instanceof Flyable) {
                 isFlyableAttackUnit = true; // 컴퓨터는 나는 유닛 있음
@@ -206,41 +207,9 @@ public class PlayGame {
             }
         }
 
-        logger.info("{}", Message.PLAYER_DESICION_LOSE);
+        logger.info("{}", message);
 
         return true; // 컴퓨터는 나는 유닛 있는데 , 나는 없음 판정패
-
-    }
-
-    public static boolean loseByDecisionComputer(Player player, Player computer) {
-
-        boolean isFlyableAttackUnit = false;
-
-        for (int i = 0; i < player.getUnitListSize(); i++) {
-            Unit unit = player.getUnitByListIndex(i);
-
-            if (unit instanceof Flyable) {
-                isFlyableAttackUnit = true;
-                break;
-            }
-        }
-
-        if (!isFlyableAttackUnit) {
-            return false;
-        }
-
-        for (int i = 0; i < computer.getUnitListSize(); i++) {
-
-            Unit unit = computer.getUnitByListIndex(i);
-
-            if (unit instanceof FlyableAttack) {
-                return false;
-            }
-        }
-
-        logger.info("{}", Message.COMPUTER_DESICION_LOSE);
-
-        return true;
 
     }
 
