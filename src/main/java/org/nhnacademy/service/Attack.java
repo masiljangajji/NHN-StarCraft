@@ -18,9 +18,4 @@ public class Attack {
             defenseUnit.takeDamage(attackUnit.getDamage());
         }
     }
-
-
 }
-
-
-
