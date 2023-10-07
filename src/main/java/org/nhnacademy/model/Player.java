@@ -2,15 +2,23 @@ package org.nhnacademy.model;
 
 import static java.lang.System.exit;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import org.nhnacademy.model.type.attackType.OnlyAttackGround;
-import org.nhnacademy.model.type.unitStatus.Flyable;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.nhnacademy.model.unit.Flyable;
+import org.nhnacademy.model.unit.NonFlyableAttackAll;
+import org.nhnacademy.model.unit.NonFlyableAttackGround;
 import org.nhnacademy.model.unit.Unit;
-import org.nhnacademy.view.Message;
+import org.nhnacademy.view.ErrorMessage;
 import org.nhnacademy.view.Path;
+import org.nhnacademy.view.UnitNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,13 +49,27 @@ public class Player {
 
         unitList = new ArrayList<>();
 
-        if (tribeSelector == 1) {
-            generateUnit(new File(Path.PROTOS_UNIT_PATH.toString()), Path.PROTOS_UNIT_CLASS_PATH.toString(), 1);
-        } else if (tribeSelector == 2) {
-            generateUnit(new File(Path.TERRAN_UNIT_PATH.toString()), Path.TERRAN_UNIT_CLASS_PATH.toString(), 5);
-        } else {
-            generateUnit(new File(Path.ZERG_UNIT_PATH.toString()), Path.ZERG_UNIT_CLASS_PATH.toString(), 8);
+        Reader reader;
+
+        try {
+            if (tribeSelector == 1) {
+                reader = new FileReader(Path.PROTOS_UNIT_PATH.toString());
+                generateUnit(reader, UnitNumber.PROTOSS.getNumber());
+            } else if (tribeSelector == 2) {
+                reader = new FileReader(Path.TERRAN_UNIT_PATH.toString());
+                generateUnit(reader, UnitNumber.TERRAN.getNumber());
+            } else {
+                reader = new FileReader(Path.ZERG_UNIT_PATH.toString());
+                generateUnit(reader, UnitNumber.ZERG.getNumber());
+            }
+        } catch (FileNotFoundException e) {
+
+            logger.warn("{}", ErrorMessage.FILE_NOT_FOUND);
+            logger.info("{}", ErrorMessage.END_PROGRAMING);
+
+            exit(1);
         }
+
 
     }
 
@@ -61,33 +83,50 @@ public class Player {
     }
 
 
-    private void generateUnit(File file, String unitPath, int unutNumber) {
+    private void generateUnit(Reader reader, int unutNumber) {
+
+        JSONParser parser = new JSONParser();
 
         try {
-
-            String[] unitArray = file.list();
-
-            if (unitArray == null) {
-                throw new IllegalArgumentException();
-            }
+            JSONArray jsonArray = (JSONArray) parser.parse(reader);
 
             for (int i = 0; i < unutNumber; i++) {
+                int randomIndex = (int) (Math.random() * jsonArray.size());
 
-                int randomIndex = (int) (Math.random() * unitArray.length);
+                JSONObject object = (JSONObject) jsonArray.get(randomIndex);
 
-                String unitName = unitArray[randomIndex].substring(0, unitArray[randomIndex].length() - 5);
-
-                Object object = Class.forName(unitPath + unitName).getDeclaredConstructor()
-                        .newInstance();
-
-                this.unitList.add((Unit) object);
+                this.unitList.add(checkUnitType((String) object.get("Type"), (Integer) object.get("Damage"),
+                        (Integer) object.get("Defense"), (String) object.get("Name")));
             }
-        } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException |
-                 NoSuchMethodException | IllegalArgumentException e) {
+            return;
+        } catch (IOException e) {
+            logger.warn("{}", ErrorMessage.IOEXEPTION);
+        } catch (ParseException e) {
+            logger.warn("{}", ErrorMessage.FILE_NOT_FOUND);
+        }catch (IllegalArgumentException e){
+            logger.warn("{}",ErrorMessage.JSON_FILE_FORMAT);
+        }
 
-            logger.warn("{}", e.getMessage());
-            logger.info("{}", Message.END_PROGRAMING);
-            exit(1);
+        exit(1);
+
+    }
+
+    private Unit checkUnitType(String unitType, int damage, int defense, String name) {
+
+        Unit unit;
+
+        switch (unitType) {
+
+            case "Flyable":
+                return unit = new Flyable(name, damage, defense);
+
+            case "NonFlyableAttackAll":
+                return unit = new NonFlyableAttackAll(name, damage, defense);
+
+            case "NonFlyableAttackGround":
+                return unit = new NonFlyableAttackGround(name, damage, defense);
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
