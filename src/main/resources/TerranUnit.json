@@ -1,0 +1,39 @@
+[
+  {
+    "Name": "Goliat",
+    "Damage": 5,
+    "Defense": 15,
+    "Type": "NonFlyableAttackAll"
+  },
+  {
+    "Name": "Marine",
+    "Damage": 3,
+    "Defense": 10,
+    "Type": "NonFlyableAttackGround"
+  },
+  {
+    "Name": "BattleCruzer",
+    "Damage": 20,
+    "Defense": 30,
+    "Type": "Flyable"
+  },
+  {
+    "Name": "Tank",
+    "Damage": 7,
+    "Defense": 15,
+    "Type": "NonFlyableAttackGround"
+  },
+  {
+    "Name": "Valkyrie",
+    "Damage": 4,
+    "Defense": 12,
+    "Type": "Flyable"
+  },
+  {
+    "Name": "Wraith",
+    "Damage": 3,
+    "Defense": 10,
+    "Type": "Flyable"
+  }
+]
+
