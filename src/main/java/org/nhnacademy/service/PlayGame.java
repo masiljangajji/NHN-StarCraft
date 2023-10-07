@@ -3,7 +3,6 @@ package org.nhnacademy.service;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.nhnacademy.model.Player;
-import org.nhnacademy.model.type.unitStatus.Flyable;
 import org.nhnacademy.model.unit.Unit;
 import org.nhnacademy.view.Message;
 import org.slf4j.Logger;
@@ -52,8 +51,7 @@ public class PlayGame {
     }
 
 
-    public static boolean attackEnemy(Player attackPlayer, Player defensePlayer) {
-
+    public static boolean attackEnemy(Player attackPlayer, Player defensePlayer, boolean check) {
 
         Unit attackUnit = null;
         Unit defenseUnit = null;
@@ -62,43 +60,57 @@ public class PlayGame {
         int defensePlayerUnitIndex = 0;
 
 
-        logger.info(Message.ATTACK_MESSAGE.toString());
+        if (check) {
 
-        do {
-            attackPlayerUnitIndex = selectPlayerUnit(attackPlayer.getUnitListSize());
-        } while (attackPlayerUnitIndex == -1);
+            logger.info(Message.ATTACK_MESSAGE.toString());
 
-
-        do {
-            defensePlayerUnitIndex = selectComputerUnit(defensePlayer.getUnitListSize());
-        } while (defensePlayerUnitIndex == -1);
+            do {
+                attackPlayerUnitIndex = selectPlayerUnit(attackPlayer.getUnitListSize());
+            } while (attackPlayerUnitIndex == -1);
 
 
-        try {
+            do {
+                defensePlayerUnitIndex = selectComputerUnit(defensePlayer.getUnitListSize());
+            } while (defensePlayerUnitIndex == -1);
 
             attackUnit = attackPlayer.getUnitByListIndex(attackPlayerUnitIndex);
             defenseUnit = defensePlayer.getUnitByListIndex(defensePlayerUnitIndex);
 
-            attackUnit.attack(defenseUnit);
+            try {
+                attackUnit.attack(defenseUnit);
+            } catch (IllegalArgumentException e) {
+                logger.warn("{}은(는) {}을(를) 공격할 수 없습니다", attackUnit.getClass().getSimpleName(),
+                        defenseUnit.getClass().getSimpleName());
+                logger.info("{}", Message.RETRY_INPUT);
+                return false;
+            }
+        } else {
 
-        } catch (IllegalArgumentException e) {
-            logger.warn("{}은(는) {}을(를) 공격할 수 없습니다", attackUnit.getClass().getSimpleName(),
-                    defenseUnit.getClass().getSimpleName());
-            logger.info("{}", Message.RETRY_INPUT);
-            return false;
+            attackPlayerUnitIndex = (int) (Math.random() * attackPlayer.getUnitListSize());
+            defensePlayerUnitIndex = (int) (Math.random() * defensePlayer.getUnitListSize());
+
+            attackUnit = attackPlayer.getUnitByListIndex(attackPlayerUnitIndex);
+            defenseUnit = defensePlayer.getUnitByListIndex(defensePlayerUnitIndex);
+
+            try {
+                attackUnit.attack(defenseUnit);
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
+
+
         }
 
         logger.info("\n{}이(가)  {}을(를) 공격했습니다   남은 방어력{}", attackUnit.getClass().getSimpleName(),
                 defenseUnit.getClass().getSimpleName(), defenseUnit.getDefense());
-
 
         if (!defenseUnit.isAlive()) {
             defensePlayer.removeUnitByIndex(defensePlayerUnitIndex);
         }
 
         return true;
-
     }
+
 
     public static int selectPlayerUnit(int playerUnitMaxIndex) {
         int playerUnitIndex = 0;
@@ -146,19 +158,20 @@ public class PlayGame {
         return computerUnitIndex - 1;
     }
 
-    public static boolean losdByDecision(Player player, Player opponent,int check) {
+    public static boolean losdByDecision(Player player, Player opponent, boolean check) {
 
 
         boolean isPlayerFlyableAttack = player.canAttackFlyableUnit();
         boolean isOpponentFlyableUnit = opponent.isFlyableUnit();
 
 
-        if(!isPlayerFlyableAttack&&isOpponentFlyableUnit){
+        if (!isPlayerFlyableAttack && isOpponentFlyableUnit) { // player 공중공격 못하는데 , opponent는 공중유닛 있어
 
-            if(check==1)
+            if (check) {
                 logger.info("{}", Message.PLAYER_DESICION_LOSE);
-            else
-                logger.info("{}",Message.COMPUTER_DESICION_LOSE);
+            } else {
+                logger.info("{}", Message.COMPUTER_DESICION_LOSE);
+            }
 
             return true;
         }
@@ -166,8 +179,6 @@ public class PlayGame {
         return false;
 
     }
-
-
 
 
 }
