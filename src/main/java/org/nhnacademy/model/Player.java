@@ -51,21 +51,23 @@ public class Player {
 
         Reader reader;
 
+
         try {
             if (tribeSelector == 1) {
-                reader = new FileReader(Path.PROTOS_UNIT_PATH.toString());
+
+                reader = new FileReader(Path.PROTOS_UNIT.toString());
                 generateUnit(reader, UnitNumber.PROTOSS.getNumber());
             } else if (tribeSelector == 2) {
-                reader = new FileReader(Path.TERRAN_UNIT_PATH.toString());
+                reader = new FileReader(Path.TERRAN_UNIT.toString());
                 generateUnit(reader, UnitNumber.TERRAN.getNumber());
             } else {
-                reader = new FileReader(Path.ZERG_UNIT_PATH.toString());
+                reader = new FileReader(Path.ZERG_UNIT.toString());
                 generateUnit(reader, UnitNumber.ZERG.getNumber());
             }
         } catch (FileNotFoundException e) {
 
-            logger.warn("{}", ErrorMessage.FILE_NOT_FOUND);
-            logger.info("{}", ErrorMessage.END_PROGRAMING);
+            logger.warn(ErrorMessage.FILE_NOT_FOUND.toString());
+            logger.info(ErrorMessage.END_PROGRAMING.toString());
 
             exit(1);
         }
@@ -95,36 +97,42 @@ public class Player {
 
                 JSONObject object = (JSONObject) jsonArray.get(randomIndex);
 
-                this.unitList.add(checkUnitType((String) object.get("Type"), (Integer) object.get("Damage"),
-                        (Integer) object.get("Defense"), (String) object.get("Name")));
+
+                this.unitList.add(checkUnitType((String) object.get("Type"), (String) object.get("Damage"),
+                        (String) object.get("Defense"), (String) object.get("Name")));
             }
             return;
         } catch (IOException e) {
-            logger.warn("{}", ErrorMessage.IOEXEPTION);
+            logger.warn(ErrorMessage.IOEXEPTION.toString());
         } catch (ParseException e) {
-            logger.warn("{}", ErrorMessage.FILE_NOT_FOUND);
-        }catch (IllegalArgumentException e){
-            logger.warn("{}",ErrorMessage.JSON_FILE_FORMAT);
+            logger.warn(ErrorMessage.FILE_NOT_FOUND.toString());
+        } catch (IllegalArgumentException e) {
+            logger.warn(ErrorMessage.JSON_FILE_FORMAT.toString());
         }
 
         exit(1);
 
     }
 
-    private Unit checkUnitType(String unitType, int damage, int defense, String name) {
+    private Unit checkUnitType(String unitType, String damage, String defense, String name) {
 
         Unit unit;
+
+
+
+        int damageNumber = Integer.valueOf(damage);
+        int defenseNumber = Integer.valueOf(defense);
 
         switch (unitType) {
 
             case "Flyable":
-                return unit = new Flyable(name, damage, defense);
+                return unit = new Flyable(name, damageNumber, defenseNumber);
 
             case "NonFlyableAttackAll":
-                return unit = new NonFlyableAttackAll(name, damage, defense);
+                return unit = new NonFlyableAttackAll(name, damageNumber, defenseNumber);
 
             case "NonFlyableAttackGround":
-                return unit = new NonFlyableAttackGround(name, damage, defense);
+                return unit = new NonFlyableAttackGround(name, damageNumber, defenseNumber);
             default:
                 throw new IllegalArgumentException();
         }
@@ -134,7 +142,7 @@ public class Player {
 
         int count = 0;
         for (int i = 0; i < unitList.size(); i++) {
-            if (unitList.get(i) instanceof OnlyAttackGround) {
+            if (unitList.get(i) instanceof NonFlyableAttackGround) {
                 count++;
             }
         }
