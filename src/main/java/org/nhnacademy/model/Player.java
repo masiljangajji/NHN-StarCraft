@@ -65,6 +65,10 @@ public class Player {
 
             String[] unitArray = file.list();
 
+            if (unitArray == null) {
+                throw new IllegalArgumentException();
+            }
+
             for (int i = 0; i < unutNumber; i++) {
 
                 int randomIndex = (int) (Math.random() * unitArray.length);
@@ -77,7 +81,7 @@ public class Player {
                 this.unitList.add((Unit) object);
             }
         } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException |
-                 NoSuchMethodException e) {
+                 NoSuchMethodException | IllegalArgumentException e) {
 
             logger.warn("{}", e.getMessage());
             logger.info("{}", Message.END_PROGRAMING);
