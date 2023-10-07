@@ -42,7 +42,7 @@ public class Player {
         unitList = new ArrayList<>();
 
         if (tribeSelector == 1) {
-            generateUnit(new File(Path.PROTOS_UNIT_PATH.toString()), Path.PROTOS_UNIT_CLASS_PATH.toString(), 4);
+            generateUnit(new File(Path.PROTOS_UNIT_PATH.toString()), Path.PROTOS_UNIT_CLASS_PATH.toString(), 1);
         } else if (tribeSelector == 2) {
             generateUnit(new File(Path.TERRAN_UNIT_PATH.toString()), Path.TERRAN_UNIT_CLASS_PATH.toString(), 5);
         } else {
