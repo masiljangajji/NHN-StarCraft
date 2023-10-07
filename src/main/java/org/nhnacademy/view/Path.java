@@ -16,4 +16,4 @@ public enum Path {
     public String toString() {
         return this.path;
     }
-    }
+}

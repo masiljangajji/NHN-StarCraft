@@ -119,7 +119,6 @@ public class Player {
         Unit unit;
 
 
-
         int damageNumber = Integer.valueOf(damage);
         int defenseNumber = Integer.valueOf(defense);
 

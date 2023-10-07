@@ -3,7 +3,6 @@ package org.nhnacademy.model.unit;
 public abstract class Unit {
 
 
-
     private final String unitName;
     private final int damage;
 
@@ -14,10 +13,14 @@ public abstract class Unit {
         return defense;
     }
 
-    Unit(String unitName,int damage, int defense) {
+    public String getUnitName() {
+        return unitName;
+    }
+
+    Unit(String unitName, int damage, int defense) {
         this.damage = damage;
         this.defense = defense;
-        this.unitName=unitName;
+        this.unitName = unitName;
     }
 
     public void attack(Unit defenseUnit) {
@@ -40,9 +43,6 @@ public abstract class Unit {
         return true;
     }
 
-    public String getUnitName() {
-        return unitName;
-    }
 
     @Override
     public String toString() {

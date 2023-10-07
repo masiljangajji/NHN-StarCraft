@@ -39,7 +39,7 @@ public class Main {
             }
 
             do {
-                playerAttackCheck = PlayGame.attackEnemy(player, computer,true);
+                playerAttackCheck = PlayGame.attackEnemy(player, computer, true);
             } while (!playerAttackCheck);
 
             if (computer.hasNoUnit()) {
@@ -53,7 +53,7 @@ public class Main {
 
 
             do {
-                computerAttackCheck = PlayGame.attackEnemy(computer, player,false);
+                computerAttackCheck = PlayGame.attackEnemy(computer, player, false);
             } while (!computerAttackCheck);
 
 

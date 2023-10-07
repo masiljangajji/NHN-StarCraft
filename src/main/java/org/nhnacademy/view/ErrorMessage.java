@@ -3,7 +3,6 @@ package org.nhnacademy.view;
 public enum ErrorMessage {
 
 
-
     INPUT_RANGE("입력 범위를 벗어났습니다!"),
     END_PROGRAMING("Error로 인해 프로그램이 종료됩니다."),
 
@@ -15,7 +14,6 @@ public enum ErrorMessage {
 
     JSON_FILE_FORMAT("존재하지 않는 JSON Type입니다"),
     INPUT_NUMBER("입력은 정수형 숫자만 가능합니다 !");
-
 
 
     private final String error;
