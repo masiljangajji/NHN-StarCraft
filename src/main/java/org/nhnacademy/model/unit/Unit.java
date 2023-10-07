@@ -9,11 +9,15 @@ public class Unit {
 
     private int damage;
 
+    public int getDefense() {
+        return defense;
+    }
+
     private int defense;
 
     private static final Logger logger = LoggerFactory.getLogger(Unit.class);
 
-    public void attack(Unit defenseUnit, int damage) {
+    public void attack(Unit defenseUnit) {
 
         if (this instanceof OnlyAttackGround && defenseUnit instanceof Flyable) {
 
