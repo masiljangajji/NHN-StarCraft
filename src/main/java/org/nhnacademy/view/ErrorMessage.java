@@ -11,7 +11,10 @@ public enum ErrorMessage {
 
     IOEXEPTION("파일을 정상적으로 읽을수 없습니다."),
 
-    PARSE("파일 Parsing이 올바르지 않습니다.");
+    PARSE("파일 Parsing이 올바르지 않습니다."),
+
+    JSON_FILE_FORMAT("존재하지 않는 JSON Type입니다"),
+    INPUT_NUMBER("입력은 정수형 숫자만 가능합니다 !");
 
 
 
@@ -22,4 +25,8 @@ public enum ErrorMessage {
     }
 
 
+    @Override
+    public String toString() {
+        return this.error;
+    }
 }

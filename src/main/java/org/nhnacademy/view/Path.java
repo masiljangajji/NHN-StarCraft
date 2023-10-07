@@ -2,10 +2,9 @@ package org.nhnacademy.view;
 
 public enum Path {
 
-    PROTOS_UNIT_PATH("src/main/resources/ProtosUnit.json"),
-    ZERG_UNIT_PATH("src/main/resources/ZergUnit.json"),
-    TERRAN_UNIT_PATH("src/main/resources/TerranUnit.json");
-
+    PROTOS_UNIT("src/main/resources/ProtosUnit.json"),
+    ZERG_UNIT("src/main/resources/ZergUnit.json"),
+    TERRAN_UNIT("src/main/resources/TerranUnit.json");
     private final String path;
 
 
