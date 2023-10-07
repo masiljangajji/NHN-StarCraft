@@ -5,17 +5,15 @@ public enum Message {
 
     PICK_TRIBE("종족을 선택해 주세요\n1 : Protos\n2 : Terran\n3 : Zerg"),
 
-    INPUT_RANGE_ERROR("입력 범위를 벗어났습니다!"),
 
     RETRY_INPUT("다시 입력해 주세요"),
-    END_PROGRAMING("Error로 인해 프로그램이 종료됩니다."),
 
     ONLY_NUMBER("입력은 숫자만 가능합니다 !"),
 
     PLAYER_UNIT("Player 유닛"),
     OPPONENT_UNIT("Opponent 유닛"),
 
-    ATTACK_MESSAGE("공격을 수행할 아군 유닛과 공격할 적군 유닛을 선택하세요"),
+    PICK_ATTACK_AND_DEFENSE_UNIT("공격을 수행할 아군 유닛과 공격할 적군 유닛을 선택하세요"),
 
     SELECT_PLAYER_UNIT("공격할 아군 유닛을 선택해 주세요"),
     SELECT_ENEMY_UNIT("공격할 적군 유닛을 선택해 주세요"),
@@ -32,10 +30,6 @@ public enum Message {
         this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return this.message;
-    }
 
 
 }
