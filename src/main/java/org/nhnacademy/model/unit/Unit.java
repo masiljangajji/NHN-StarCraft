@@ -1,21 +1,26 @@
 package org.nhnacademy.model.unit;
 
+import org.nhnacademy.model.type.attackType.OnlyAttackGround;
+import org.nhnacademy.model.type.unitStatus.Flyable;
+
 public class Unit {
 
     private int damage;
 
     private int defense;
 
-    public void takeDamage(int damage) {
-        this.defense -= damage;
+    public void attack(Unit defenseUnit, int damage) {
+
+        if (this instanceof OnlyAttackGround && defenseUnit instanceof Flyable) {
+            System.out.println("공중유닛을 때릴 수 없습니다.");
+            throw new IllegalArgumentException();
+        }
+
+        defenseUnit.attackByEnemy(this.damage);
     }
 
-    public int getDamage() {
-        return damage;
-    }
-
-    public int getDefense() {
-        return defense;
+    public void attackByEnemy(int attackDamage) {
+        this.defense -= attackDamage;
     }
 
     public boolean isAlive() {
@@ -32,6 +37,6 @@ public class Unit {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " 공격력 " + this.getDamage() + " 현재 방어력: " + this.getDefense();
+        return this.getClass().getSimpleName() + " 공격력 " + this.damage + " 현재 방어력: " + this.defense;
     }
 }
