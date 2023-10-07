@@ -1,13 +1,11 @@
 package org.nhnacademy.model;
 
+import static java.lang.System.exit;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import org.nhnacademy.model.type.unitType.ProtosUnit;
-import org.nhnacademy.model.type.unitType.TerranUnit;
-import org.nhnacademy.model.type.unitType.UnitType;
-import org.nhnacademy.model.type.unitType.ZergUnit;
 import org.nhnacademy.model.unit.Unit;
 import org.nhnacademy.view.Message;
 import org.nhnacademy.view.Path;
@@ -18,7 +16,6 @@ public class Player {
 
 
     private static final Logger logger = LoggerFactory.getLogger(Player.class);
-    private final UnitType unitType;
     private final List<Unit> unitList;
 
     public boolean hasNoUnit() {
@@ -40,19 +37,15 @@ public class Player {
 
     public Player(int tribeSelector) {
 
-        if (tribeSelector == 1) {
-            this.unitType = new TerranUnit() {
-            };
-        } else if (tribeSelector == 2) {
-            this.unitType = new ZergUnit() {
-            };
-        } else {
-            this.unitType = new ProtosUnit() {
-            };
-        }
-
         unitList = new ArrayList<>();
 
+        if (tribeSelector == 1) {
+            generateUnit(new File(Path.PROTOS_UNIT_CLASS_PATH.toString()), Path.PROTOS_UNIT_PATH.toString(), 4);
+        } else if (tribeSelector == 2) {
+            generateUnit(new File(Path.TERRAN_UNIT_CLASS_PATH.toString()), Path.TERRAN_UNIT_PATH.toString(), 5);
+        } else {
+            generateUnit(new File(Path.ZERG_UNIT_CLASS_PATH.toString()), Path.ZERG_UNIT_PATH.toString(), 8);
+        }
 
     }
 
@@ -65,90 +58,31 @@ public class Player {
         logger.info("{}", sb);
     }
 
-    public boolean generateRandomUnit() {
 
-        File file;
-
-        String[] unitArray;
-
-        String classPath;
-
-        String unitPath;
-
+    private void generateUnit(File file, String unitPath, int unutNumber) {
 
         try {
-            if (unitType instanceof ProtosUnit) {
 
-                classPath = Path.PROTOS_UNIT_CLASS_PATH.toString();
-                unitPath = Path.PROTOS_UNIT_PATH.toString();
+            String[] unitArray = file.list();
 
-                file = new File(unitPath);
-                unitArray = file.list();
+            for (int i = 0; i < unutNumber; i++) {
 
+                int randomIndex = (int) (Math.random() * unitArray.length);
 
-                for (int i = 0; i < 4; i++) {
+                String unitName = unitArray[randomIndex].substring(0, unitArray[randomIndex].length() - 5);
 
-                    int randomIndex = (int) (Math.random() * unitArray.length);
+                Object object = Class.forName(unitPath + unitName).getDeclaredConstructor()
+                        .newInstance();
 
-                    String unitName = unitArray[randomIndex].substring(0, unitArray[randomIndex].length() - 5);
-
-                    Object object = Class.forName(classPath + unitName).getDeclaredConstructor().newInstance();
-
-                    this.unitList.add((Unit) object);
-
-                }
-
-            } else if (unitType instanceof TerranUnit) {
-
-                classPath = Path.TERRAN_UNIT_CLASS_PATH.toString();
-                unitPath = Path.TERRAN_UNIT_PATH.toString();
-
-                file = new File(unitPath);
-                unitArray = file.list();
-
-
-                for (int i = 0; i < 5; i++) {
-                    int randomIndex = (int) (Math.random() * unitArray.length);
-
-                    String unitName = unitArray[randomIndex].substring(0, unitArray[randomIndex].length() - 5);
-
-                    Object object = Class.forName(classPath + unitName).getDeclaredConstructor().newInstance();
-
-                    this.unitList.add((Unit) object);
-                }
-
-            } else {
-
-                classPath = Path.ZERG_UNIT_CLASS_PATH.toString();
-                unitPath = Path.ZERG_UNIT_PATH.toString();
-
-                file = new File(unitPath);
-                unitArray = file.list();
-
-
-                for (int i = 0; i < 8; i++) {
-                    int randomIndex = (int) (Math.random() * unitArray.length);
-
-                    String unitName = unitArray[randomIndex].substring(0, unitArray[randomIndex].length() - 5);
-
-                    Object object = Class.forName(classPath + unitName).getDeclaredConstructor().newInstance();
-
-                    this.unitList.add((Unit) object);
-                }
-
+                this.unitList.add((Unit) object);
             }
+        } catch (ClassNotFoundException | InvocationTargetException | InstantiationException | IllegalAccessException |
+                 NoSuchMethodException e) {
 
-
-            return true;
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ClassCastException |
-                 NoSuchMethodException | InvocationTargetException | NullPointerException e) {
             logger.warn("{}", e.getMessage());
             logger.info("{}", Message.END_PROGRAMING);
+            exit(1);
         }
-
-        return false;
     }
-
-
 }
+
