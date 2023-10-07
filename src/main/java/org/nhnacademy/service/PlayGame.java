@@ -52,32 +52,32 @@ public class PlayGame {
     }
 
 
-    public static boolean attackEnemy(Player player, Player opponent) {
+    public static boolean attackEnemy(Player attackPlayer, Player defensePlayer) {
 
 
         Unit attackUnit = null;
         Unit defenseUnit = null;
 
-        int playerUnitIndex = 0;
-        int opponentUnitIndex = 0;
+        int attackPlayerUnitIndex = 0;
+        int defensePlayerUnitIndex = 0;
 
 
         logger.info(Message.ATTACK_MESSAGE.toString());
 
         do {
-            playerUnitIndex = selectPlayerUnit(player.getUnitListSize());
-        } while (playerUnitIndex == -1);
+            attackPlayerUnitIndex = selectPlayerUnit(attackPlayer.getUnitListSize());
+        } while (attackPlayerUnitIndex == -1);
 
 
         do {
-            opponentUnitIndex = selectComputerUnit(opponent.getUnitListSize());
-        } while (opponentUnitIndex == -1);
+            defensePlayerUnitIndex = selectComputerUnit(defensePlayer.getUnitListSize());
+        } while (defensePlayerUnitIndex == -1);
 
 
         try {
 
-            attackUnit = player.getUnitByListIndex(playerUnitIndex);
-            defenseUnit = opponent.getUnitByListIndex(opponentUnitIndex);
+            attackUnit = attackPlayer.getUnitByListIndex(attackPlayerUnitIndex);
+            defenseUnit = defensePlayer.getUnitByListIndex(defensePlayerUnitIndex);
 
             attackUnit.attack(defenseUnit);
 
@@ -93,7 +93,7 @@ public class PlayGame {
 
 
         if (!defenseUnit.isAlive()) {
-            opponent.removeUnitByIndex(opponentUnitIndex);
+            defensePlayer.removeUnitByIndex(defensePlayerUnitIndex);
         }
 
         return true;
