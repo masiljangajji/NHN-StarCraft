@@ -6,6 +6,8 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import org.nhnacademy.model.type.attackType.OnlyAttackGround;
+import org.nhnacademy.model.type.unitStatus.Flyable;
 import org.nhnacademy.model.unit.Unit;
 import org.nhnacademy.view.Message;
 import org.nhnacademy.view.Path;
@@ -40,11 +42,11 @@ public class Player {
         unitList = new ArrayList<>();
 
         if (tribeSelector == 1) {
-            generateUnit(new File(Path.PROTOS_UNIT_CLASS_PATH.toString()), Path.PROTOS_UNIT_PATH.toString(), 4);
+            generateUnit(new File(Path.PROTOS_UNIT_PATH.toString()), Path.PROTOS_UNIT_CLASS_PATH.toString(), 4);
         } else if (tribeSelector == 2) {
-            generateUnit(new File(Path.TERRAN_UNIT_CLASS_PATH.toString()), Path.TERRAN_UNIT_PATH.toString(), 5);
+            generateUnit(new File(Path.TERRAN_UNIT_PATH.toString()), Path.TERRAN_UNIT_CLASS_PATH.toString(), 5);
         } else {
-            generateUnit(new File(Path.ZERG_UNIT_CLASS_PATH.toString()), Path.ZERG_UNIT_PATH.toString(), 8);
+            generateUnit(new File(Path.ZERG_UNIT_PATH.toString()), Path.ZERG_UNIT_CLASS_PATH.toString(), 8);
         }
 
     }
@@ -88,5 +90,28 @@ public class Player {
             exit(1);
         }
     }
+
+    public boolean canAttackFlyableUnit() {
+
+        int count = 0;
+        for (int i = 0; i < unitList.size(); i++) {
+            if (unitList.get(i) instanceof OnlyAttackGround) {
+                count++;
+            }
+        }
+
+        return !(count == unitList.size());
+    }
+
+    public boolean isFlyableUnit() {
+
+        for (int i = 0; i < unitList.size(); i++) {
+            if (unitList.get(i) instanceof Flyable) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
