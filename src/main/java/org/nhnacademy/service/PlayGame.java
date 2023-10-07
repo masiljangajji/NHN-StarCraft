@@ -43,11 +43,11 @@ public class PlayGame {
         return num;
     }
 
-    public static void printUnitList(Player player, Player computer) {
+    public static void printUnitList(Player player, Player opponent) {
         logger.info("\n{}", Message.PLAYER_UNIT);
         player.printUnitList();
-        logger.info("{}", Message.COMPUTER_UNIT);
-        computer.printUnitList();
+        logger.info("{}", Message.OPPONENT_UNIT);
+        opponent.printUnitList();
     }
 
 
@@ -65,12 +65,12 @@ public class PlayGame {
             logger.info(Message.ATTACK_MESSAGE.toString());
 
             do {
-                attackPlayerUnitIndex = selectPlayerUnit(attackPlayer.getUnitListSize());
+                attackPlayerUnitIndex = selectUnit(attackPlayer.getUnitListSize());
             } while (attackPlayerUnitIndex == -1);
 
 
             do {
-                defensePlayerUnitIndex = selectComputerUnit(defensePlayer.getUnitListSize());
+                defensePlayerUnitIndex = selectUnit(defensePlayer.getUnitListSize());
             } while (defensePlayerUnitIndex == -1);
 
             attackUnit = attackPlayer.getUnitByListIndex(attackPlayerUnitIndex);
@@ -112,13 +112,13 @@ public class PlayGame {
     }
 
 
-    public static int selectPlayerUnit(int playerUnitMaxIndex) {
+    public static int selectUnit(int unitMaxIndex) {
         int playerUnitIndex = 0;
 
         logger.info("{}", Message.SELECT_PLAYER_UNIT);
         try {
             playerUnitIndex = sc.nextInt();
-            if (playerUnitIndex < 1 || playerUnitIndex > playerUnitMaxIndex) {
+            if (playerUnitIndex < 1 || playerUnitIndex > unitMaxIndex) {
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
@@ -135,29 +135,6 @@ public class PlayGame {
         return playerUnitIndex - 1;
     }
 
-    public static int selectComputerUnit(int computerUnitMaxIndex) {
-        int computerUnitIndex = 0;
-
-        logger.info("{}", Message.SELECT_ENEMY_UNIT);
-        try {
-            computerUnitIndex = sc.nextInt();
-            if (computerUnitIndex < 1 || computerUnitIndex > computerUnitMaxIndex) {
-                throw new IllegalArgumentException();
-            }
-        } catch (IllegalArgumentException e) {
-            logger.warn("{}", Message.INPUT_RANGE_ERROR);
-            logger.info("{}", Message.RETRY_INPUT);
-            sc.nextLine();
-            return -1;
-        } catch (InputMismatchException e) {
-            logger.warn("{}", Message.ONLY_NUMBER);
-            logger.info("{}", Message.RETRY_INPUT);
-            sc.nextLine();
-            return -1;
-        }
-        return computerUnitIndex - 1;
-    }
-
     public static boolean losdByDecision(Player player, Player opponent, boolean check) {
 
 
@@ -170,7 +147,7 @@ public class PlayGame {
             if (check) {
                 logger.info("{}", Message.PLAYER_DESICION_LOSE);
             } else {
-                logger.info("{}", Message.COMPUTER_DESICION_LOSE);
+                logger.info("{}", Message.OPPONENT_DESICION_LOSE);
             }
 
             return true;
