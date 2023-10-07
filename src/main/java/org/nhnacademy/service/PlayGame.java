@@ -146,71 +146,28 @@ public class PlayGame {
         return computerUnitIndex - 1;
     }
 
-    public static boolean losdByDecisionPlayer(Player player, Player computer) {
+    public static boolean losdByDecision(Player player, Player opponent,int check) {
 
-        boolean isFlyableAttackUnit = false;
 
-        for (int i = 0; i < computer.getUnitListSize(); i++) {
-            Unit unit = computer.getUnitByListIndex(i);
+        boolean isPlayerFlyableAttack = player.canAttackFlyableUnit();
+        boolean isOpponentFlyableUnit = opponent.isFlyableUnit();
 
-            if (unit instanceof Flyable) {
-                isFlyableAttackUnit = true; // 컴퓨터는 나는 유닛 있음
-                break;
-            }
+
+        if(!isPlayerFlyableAttack&&isOpponentFlyableUnit){
+
+            if(check==1)
+                logger.info("{}", Message.PLAYER_DESICION_LOSE);
+            else
+                logger.info("{}",Message.COMPUTER_DESICION_LOSE);
+
+            return true;
         }
 
-        if (!isFlyableAttackUnit) // 나는 유닛 없으면 판정패 없음
-        {
-            return false;
-        }
-
-        for (int i = 0; i < player.getUnitListSize(); i++) {
-
-            Unit unit = player.getUnitByListIndex(i);
-
-            if (unit instanceof FlyableAttack) // 컴퓨터는 나는 유닛 있고 , 나는 공격할 유닛 있어
-            {
-                return false; // 판정패 아님
-            }
-        }
-
-        logger.info("{}", Message.PLAYER_DESICION_LOSE);
-
-        return true; // 컴퓨터는 나는 유닛 있는데 , 나는 없음 판정패
+        return false;
 
     }
 
-    public static boolean loseByDecisionComputer(Player player, Player computer) {
 
-        boolean isFlyableAttackUnit = false;
-
-        for (int i = 0; i < player.getUnitListSize(); i++) {
-            Unit unit = player.getUnitByListIndex(i);
-
-            if (unit instanceof Flyable) {
-                isFlyableAttackUnit = true;
-                break;
-            }
-        }
-
-        if (!isFlyableAttackUnit) {
-            return false;
-        }
-
-        for (int i = 0; i < computer.getUnitListSize(); i++) {
-
-            Unit unit = computer.getUnitByListIndex(i);
-
-            if (unit instanceof FlyableAttack) {
-                return false;
-            }
-        }
-
-        logger.info("{}", Message.COMPUTER_DESICION_LOSE);
-
-        return true;
-
-    }
 
 
 }
