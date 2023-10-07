@@ -1,38 +1,38 @@
 [
   {
     "Name": "Carrier",
-    "Damage": 25,
-    "Defense": 40,
+    "Damage": "25",
+    "Defense": "40",
     "Type": "Flyable"
   },
   {
     "Name": "Corsair",
-    "Damage": 4,
-    "Defense": 12,
+    "Damage": "4",
+    "Defense": "12",
     "Type": "Flyable"
   },
   {
     "Name": "Dragoon",
-    "Damage": 3,
-    "Defense": 15,
+    "Damage": "3",
+    "Defense": "15",
     "Type": "NonFlyableAttackAll"
   },
   {
     "Name": "HighTempler",
-    "Damage": 10,
-    "Defense": 2,
+    "Damage": "10",
+    "Defense": "2",
     "Type": "NonFlyableAttackGround"
   },
   {
     "Name": "Scout",
-    "Damage": 5,
-    "Defense": 10,
+    "Damage": "5",
+    "Defense": "10",
     "Type": "Flyable"
   },
   {
     "Name": "Zealot",
-    "Damage": 5,
-    "Defense": 20,
+    "Damage": "5",
+    "Defense": "20",
     "Type": "NonFlyableAttackGround"
   }
 ]
