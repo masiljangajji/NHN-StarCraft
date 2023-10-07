@@ -10,6 +10,4 @@ public class Tank extends Unit implements NonFlyable, NonFlyableAttack, TerranUn
         super(7, 15);
     }
 
-
-
 }

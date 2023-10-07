@@ -2,6 +2,8 @@ package org.nhnacademy.model.unit;
 
 import org.nhnacademy.model.type.attackType.OnlyAttackGround;
 import org.nhnacademy.model.type.unitStatus.Flyable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Unit {
 
@@ -9,10 +11,13 @@ public class Unit {
 
     private int defense;
 
+    private static final Logger logger = LoggerFactory.getLogger(Unit.class);
+
     public void attack(Unit defenseUnit, int damage) {
 
         if (this instanceof OnlyAttackGround && defenseUnit instanceof Flyable) {
-            System.out.println("공중유닛을 때릴 수 없습니다.");
+
+            logger.warn("{}은(는) {}을(를) 공격 할 수 없습니다.",this.getClass().getSimpleName(),defenseUnit.getClass().getSimpleName());
             throw new IllegalArgumentException();
         }
 
