@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 public class Main {
 
+
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
@@ -42,7 +43,7 @@ public class Main {
             } while (!playerAttackCheck);
 
             if (computer.hasNoUnit()) {
-                logger.info("{}", Message.COMPUTER_LOSE);
+                logger.info(Message.COMPUTER_LOSE.toString());
                 break;
             }
 
@@ -57,14 +58,14 @@ public class Main {
 
 
             if (player.hasNoUnit()) {
-                logger.info("{}", Message.PLAYER_LOSE);
+                logger.info(Message.PLAYER_LOSE.toString());
                 break;
             }
 
 
         }
 
-        logger.info("{}", Message.END_GAME);
+        logger.info(Message.END_GAME.toString());
     }
 
 
