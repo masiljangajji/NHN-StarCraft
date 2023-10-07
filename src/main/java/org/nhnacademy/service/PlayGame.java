@@ -3,7 +3,6 @@ package org.nhnacademy.service;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.nhnacademy.model.Player;
-import org.nhnacademy.model.type.attackType.FlyableAttack;
 import org.nhnacademy.model.type.unitStatus.Flyable;
 import org.nhnacademy.model.unit.Unit;
 import org.nhnacademy.view.Message;
@@ -34,12 +33,12 @@ public class PlayGame {
         } catch (IllegalArgumentException e) {
             logger.warn("{}", Message.INPUT_RANGE_ERROR);
             logger.info("{}", Message.RETRY_INPUT);
-            pickTribe();
+            return -1;
         } catch (InputMismatchException e) {
             logger.warn("{}", Message.ONLY_NUMBER);
             logger.info("{}", Message.RETRY_INPUT);
             sc.nextLine();
-            pickTribe();
+            return -1;
         }
 
         return num;
@@ -53,14 +52,14 @@ public class PlayGame {
     }
 
 
-    public static boolean playerAttack(Player player, Player computer) {
+    public static boolean attackEnemy(Player player, Player opponent) {
 
 
         Unit attackUnit = null;
         Unit defenseUnit = null;
 
         int playerUnitIndex = 0;
-        int computerUnitIndex = 0;
+        int opponentUnitIndex = 0;
 
 
         logger.info(Message.ATTACK_MESSAGE.toString());
@@ -71,16 +70,16 @@ public class PlayGame {
 
 
         do {
-            computerUnitIndex = selectComputerUnit(computer.getUnitListSize());
-        } while (computerUnitIndex == -1);
+            opponentUnitIndex = selectComputerUnit(opponent.getUnitListSize());
+        } while (opponentUnitIndex == -1);
 
 
         try {
 
             attackUnit = player.getUnitByListIndex(playerUnitIndex);
-            defenseUnit = computer.getUnitByListIndex(computerUnitIndex);
+            defenseUnit = opponent.getUnitByListIndex(opponentUnitIndex);
 
-            Attack.attack(attackUnit, defenseUnit);
+            attackUnit.attack(defenseUnit);
 
         } catch (IllegalArgumentException e) {
             logger.warn("{}은(는) {}을(를) 공격할 수 없습니다", attackUnit.getClass().getSimpleName(),
@@ -89,47 +88,16 @@ public class PlayGame {
             return false;
         }
 
-        logger.info("\nPlayer의 {}이(가) Computer의 {}을(를) 공격했습니다   남은 방어력{}", attackUnit.getClass().getSimpleName(),
+        logger.info("\n{}이(가)  {}을(를) 공격했습니다   남은 방어력{}", attackUnit.getClass().getSimpleName(),
                 defenseUnit.getClass().getSimpleName(), defenseUnit.getDefense());
 
 
         if (!defenseUnit.isAlive()) {
-            computer.removeUnitByIndex(computerUnitIndex);
+            opponent.removeUnitByIndex(opponentUnitIndex);
         }
 
         return true;
 
-    }
-
-    public static boolean computerAttack(Player player, Player computer) {
-
-
-        Unit attackUnit = null;
-        Unit defenseUnit = null;
-
-
-        int playerUnitIndex = (int) (Math.random() * player.getUnitListSize());
-        int computerUnitIndex = (int) (Math.random() * computer.getUnitListSize());
-
-        try {
-
-            attackUnit = computer.getUnitByListIndex(computerUnitIndex);
-            defenseUnit = player.getUnitByListIndex(playerUnitIndex);
-
-            Attack.attack(attackUnit, defenseUnit);
-
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-
-        logger.info("\nComputer의 {}이(가) User의 {}을(를) 공격했습니다   남은 방어력{}", attackUnit.getClass().getSimpleName(),
-                defenseUnit.getClass().getSimpleName(), defenseUnit.getDefense());
-
-        if (!defenseUnit.isAlive()) {
-            player.removeUnitByIndex(playerUnitIndex);
-        }
-
-        return true;
     }
 
     public static int selectPlayerUnit(int playerUnitMaxIndex) {
