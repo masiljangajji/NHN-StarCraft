@@ -60,9 +60,11 @@ public class Player {
             } else if (tribeSelector == 2) {
                 reader = new FileReader(Path.TERRAN_UNIT.toString());
                 generateUnit(reader, UnitNumber.TERRAN.getNumber());
-            } else {
+            } else if (tribeSelector == 3) {
                 reader = new FileReader(Path.ZERG_UNIT.toString());
                 generateUnit(reader, UnitNumber.ZERG.getNumber());
+            } else {
+                throw new Exception();
             }
         } catch (FileNotFoundException e) {
 
@@ -70,6 +72,8 @@ public class Player {
             logger.info(ErrorMessage.END_PROGRAMING.toString());
 
             exit(1);
+        } catch (Exception e) {
+            logger.warn("It's is Null Type");
         }
 
 
@@ -112,6 +116,7 @@ public class Player {
         exit(1);
 
     }
+
     private Unit getUnit(String unitType, String damage, String defense, String name) {
 
         Unit unit;

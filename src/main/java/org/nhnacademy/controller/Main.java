@@ -2,6 +2,8 @@ package org.nhnacademy.controller;
 
 
 import org.nhnacademy.model.Player;
+import org.nhnacademy.model.unit.NonFlyableAttackGround;
+import org.nhnacademy.model.unit.Unit;
 import org.nhnacademy.service.PlayGame;
 import org.nhnacademy.view.Message;
 import org.slf4j.Logger;
@@ -14,7 +16,6 @@ public class Main {
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-
 
         int playerTribeNumber = 0;
 
