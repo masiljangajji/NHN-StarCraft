@@ -1,32 +1,32 @@
 package org.nhnacademy.controller;
 
 
-import java.util.Scanner;
 import org.nhnacademy.model.Player;
+import org.nhnacademy.model.unit.NonFlyableAttackGround;
+import org.nhnacademy.model.unit.Unit;
 import org.nhnacademy.service.PlayGame;
 import org.nhnacademy.view.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * Hello world!
- */
+
 public class Main {
+
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
-    private static final Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
 
+        int playerTribeNumber = 0;
 
-        Player player = new Player(PlayGame.pickTribe());
+        do {
+            playerTribeNumber = PlayGame.pickTribe();
+        } while (playerTribeNumber == -1);
+
+        Player player = new Player(playerTribeNumber);
 
         Player computer = new Player((int) (Math.random() * 3 + 1));
 
-        if (!player.generateRandomUnit() || !computer.generateRandomUnit()) {
-            return;
-        }
 
         while (true) {
 
@@ -35,39 +35,40 @@ public class Main {
             boolean playerAttackCheck;
             boolean computerAttackCheck;
 
-            if (PlayGame.losdByDecisionPlayer(player, computer)) {
+            if (PlayGame.losdByDecision(player, computer, true)) {
                 break;
             }
 
             do {
-                playerAttackCheck = PlayGame.playerAttack(player, computer);
+                playerAttackCheck = PlayGame.attackEnemy(player, computer, true);
             } while (!playerAttackCheck);
 
             if (computer.hasNoUnit()) {
-                logger.info("{}", Message.COMPUTER_LOSE);
+                logger.info(Message.COMPUTER_LOSE.toString());
                 break;
             }
 
-            if (PlayGame.loseByDecisionComputer(player, computer)) {
+            if (PlayGame.losdByDecision(computer, player, false)) {
                 break;
             }
 
 
             do {
-                computerAttackCheck = PlayGame.computerAttack(player, computer);
+                computerAttackCheck = PlayGame.attackEnemy(computer, player, false);
             } while (!computerAttackCheck);
 
 
             if (player.hasNoUnit()) {
-                logger.info("{}", Message.PLAYER_LOSE);
+                logger.info(Message.PLAYER_LOSE.toString());
                 break;
             }
 
 
         }
 
-        logger.info("{}", Message.END_GAME);
+        logger.info(Message.END_GAME.toString());
     }
 
 
 }
+

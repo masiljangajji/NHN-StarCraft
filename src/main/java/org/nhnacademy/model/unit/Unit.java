@@ -1,21 +1,39 @@
 package org.nhnacademy.model.unit;
 
-public class Unit {
+public abstract class Unit {
 
-    private int damage;
+
+    private final String unitName;
+    private final int damage;
 
     private int defense;
 
-    public void takeDamage(int damage) {
-        this.defense -= damage;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
 
     public int getDefense() {
         return defense;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    Unit(String unitName, int damage, int defense) {
+        this.damage = damage;
+        this.defense = defense;
+        this.unitName = unitName;
+    }
+
+    public void attack(Unit defenseUnit) {
+
+        if (this instanceof NonFlyableAttackGround && defenseUnit instanceof Flyable) {
+            throw new IllegalArgumentException();
+        }
+
+        defenseUnit.attackByEnemy(this.damage);
+    }
+
+    public void attackByEnemy(int attackDamage) {
+        this.defense -= attackDamage;
     }
 
     public boolean isAlive() {
@@ -25,13 +43,9 @@ public class Unit {
         return true;
     }
 
-    protected Unit(int damage, int defense) {
-        this.damage = damage;
-        this.defense = defense;
-    }
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " 공격력 " + this.getDamage() + " 현재 방어력: " + this.getDefense();
+        return this.unitName + " 공격력 " + this.damage + " 현재 방어력: " + this.defense;
     }
 }

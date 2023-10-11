@@ -1,0 +1,39 @@
+[
+  {
+    "Name": "Guardian",
+    "Damage": "3",
+    "Defense": "6",
+    "Type": "Flyable"
+  },
+  {
+    "Name": "Hydralisk",
+    "Damage": "3",
+    "Defense": "7",
+    "Type": "NonFlyableAttackAll"
+  },
+  {
+    "Name": "Mutalisk",
+    "Damage": "2",
+    "Defense": "8",
+    "Type": "Flyable"
+  },
+  {
+    "Name": "Queen",
+    "Damage": "15",
+    "Defense": "25",
+    "Type": "Flyable"
+  },
+  {
+    "Name": "Ultralisk",
+    "Damage": "5",
+    "Defense": "15",
+    "Type": "NonFlyableAttackGround"
+  },
+  {
+    "Name": "Zergling",
+    "Damage": "2",
+    "Defense": "2",
+    "Type": "NonFlyableAttackGround"
+  }
+]
+

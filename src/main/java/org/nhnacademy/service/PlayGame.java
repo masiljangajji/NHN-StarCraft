@@ -3,9 +3,8 @@ package org.nhnacademy.service;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import org.nhnacademy.model.Player;
-import org.nhnacademy.model.type.attackType.FlyableAttack;
-import org.nhnacademy.model.type.unitStatus.Flyable;
 import org.nhnacademy.model.unit.Unit;
+import org.nhnacademy.view.ErrorMessage;
 import org.nhnacademy.view.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,7 @@ public class PlayGame {
 
 
     public static int pickTribe() {
-        logger.info("{}", Message.PICK_TRIBE);
+        logger.info(Message.PICK_TRIBE.toString());
 
         int num = 0;
         try {
@@ -32,215 +31,136 @@ public class PlayGame {
             }
 
         } catch (IllegalArgumentException e) {
-            logger.warn("{}", Message.INPUT_RANGE_ERROR);
-            logger.info("{}", Message.RETRY_INPUT);
-            pickTribe();
+            logger.warn(ErrorMessage.INPUT_RANGE.toString());
+            logger.info(Message.RETRY_INPUT.toString());
+            return -1;
         } catch (InputMismatchException e) {
-            logger.warn("{}", Message.ONLY_NUMBER);
-            logger.info("{}", Message.RETRY_INPUT);
+            logger.warn(ErrorMessage.INPUT_NUMBER.toString());
+            logger.info(Message.RETRY_INPUT.toString());
             sc.nextLine();
-            pickTribe();
+            return -1;
         }
 
         return num;
     }
 
-    public static void printUnitList(Player player, Player computer) {
-        logger.info("\n{}", Message.PLAYER_UNIT);
+    public static void printUnitList(Player player, Player opponent) {
+        logger.info(Message.PLAYER_UNIT.toString());
         player.printUnitList();
-        logger.info("{}", Message.COMPUTER_UNIT);
-        computer.printUnitList();
+        logger.info(Message.OPPONENT_UNIT.toString());
+        opponent.printUnitList();
     }
 
 
-    public static boolean playerAttack(Player player, Player computer) {
-
+    public static boolean attackEnemy(Player attackPlayer, Player defensePlayer, boolean check) {
 
         Unit attackUnit = null;
         Unit defenseUnit = null;
 
-        int playerUnitIndex = 0;
-        int computerUnitIndex = 0;
+        int attackPlayerUnitIndex = 0;
+        int defensePlayerUnitIndex = 0;
 
 
-        logger.info(Message.ATTACK_MESSAGE.toString());
+        if (check) {
 
-        do {
-            playerUnitIndex = selectPlayerUnit(player.getUnitListSize());
-        } while (playerUnitIndex == -1);
+            logger.info(Message.PICK_ATTACK_AND_DEFENSE_UNIT.toString());
 
-
-        do {
-            computerUnitIndex = selectComputerUnit(computer.getUnitListSize());
-        } while (computerUnitIndex == -1);
+            do {
+                attackPlayerUnitIndex = selectUnit(attackPlayer.getUnitListSize(), true);
+            } while (attackPlayerUnitIndex == -1);
 
 
-        try {
+            do {
+                defensePlayerUnitIndex = selectUnit(defensePlayer.getUnitListSize(), false);
+            } while (defensePlayerUnitIndex == -1);
 
-            attackUnit = player.getUnitByListIndex(playerUnitIndex);
-            defenseUnit = computer.getUnitByListIndex(computerUnitIndex);
+            attackUnit = attackPlayer.getUnitByListIndex(attackPlayerUnitIndex);
+            defenseUnit = defensePlayer.getUnitByListIndex(defensePlayerUnitIndex);
 
-            Attack.attack(attackUnit, defenseUnit);
+            try {
+                attackUnit.attack(defenseUnit);
+            } catch (IllegalArgumentException e) {
+                logger.warn("{}은(는) {}을(를) 공격할 수 없습니다", attackUnit.getUnitName(),
+                        defenseUnit.getUnitName());
+                logger.info(Message.RETRY_INPUT.toString());
+                return false;
+            }
 
-        } catch (IllegalArgumentException e) {
-            logger.warn("{}은(는) {}을(를) 공격할 수 없습니다", attackUnit.getClass().getSimpleName(),
-                    defenseUnit.getClass().getSimpleName());
-            logger.info("{}", Message.RETRY_INPUT);
-            return false;
+        } else {
+
+            attackPlayerUnitIndex = (int) (Math.random() * attackPlayer.getUnitListSize());
+            defensePlayerUnitIndex = (int) (Math.random() * defensePlayer.getUnitListSize());
+
+            attackUnit = attackPlayer.getUnitByListIndex(attackPlayerUnitIndex);
+            defenseUnit = defensePlayer.getUnitByListIndex(defensePlayerUnitIndex);
+
+            try {
+                attackUnit.attack(defenseUnit);
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
+
         }
 
-        logger.info("\nPlayer의 {}이(가) Computer의 {}을(를) 공격했습니다   남은 방어력{}", attackUnit.getClass().getSimpleName(),
-                defenseUnit.getClass().getSimpleName(), defenseUnit.getDefense());
-
+        logger.info("\n{}이(가)  {}을(를) 공격했습니다   남은 방어력{}", attackUnit.getUnitName(),
+                defenseUnit.getUnitName(), defenseUnit.getDefense());
 
         if (!defenseUnit.isAlive()) {
-            computer.removeUnitByIndex(computerUnitIndex);
-        }
-
-        return true;
-
-    }
-
-    public static boolean computerAttack(Player player, Player computer) {
-
-
-        Unit attackUnit = null;
-        Unit defenseUnit = null;
-
-
-        int playerUnitIndex = (int) (Math.random() * player.getUnitListSize());
-        int computerUnitIndex = (int) (Math.random() * computer.getUnitListSize());
-
-        try {
-
-            attackUnit = computer.getUnitByListIndex(computerUnitIndex);
-            defenseUnit = player.getUnitByListIndex(playerUnitIndex);
-
-            Attack.attack(attackUnit, defenseUnit);
-
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-
-        logger.info("\nComputer의 {}이(가) User의 {}을(를) 공격했습니다   남은 방어력{}", attackUnit.getClass().getSimpleName(),
-                defenseUnit.getClass().getSimpleName(), defenseUnit.getDefense());
-
-        if (!defenseUnit.isAlive()) {
-            player.removeUnitByIndex(playerUnitIndex);
+            defensePlayer.removeUnitByIndex(defensePlayerUnitIndex);
         }
 
         return true;
     }
 
-    public static int selectPlayerUnit(int playerUnitMaxIndex) {
+
+    public static int selectUnit(int unitMaxIndex, boolean pickMyUnit) {
         int playerUnitIndex = 0;
 
-        logger.info("{}", Message.SELECT_PLAYER_UNIT);
+        if (pickMyUnit) {
+            logger.info(Message.SELECT_PLAYER_UNIT.toString());
+        } else {
+            logger.info(Message.SELECT_ENEMY_UNIT.toString());
+        }
         try {
             playerUnitIndex = sc.nextInt();
-            if (playerUnitIndex < 1 || playerUnitIndex > playerUnitMaxIndex) {
+            if (playerUnitIndex < 1 || playerUnitIndex > unitMaxIndex) {
                 throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
-            logger.warn("{}", Message.INPUT_RANGE_ERROR);
-            logger.info("{}", Message.RETRY_INPUT);
+            logger.warn(ErrorMessage.INPUT_RANGE.toString());
+            logger.info(Message.RETRY_INPUT.toString());
             sc.nextLine();
             return -1;
         } catch (InputMismatchException e) {
-            logger.warn("{}", Message.ONLY_NUMBER);
-            logger.info("{}", Message.RETRY_INPUT);
+            logger.warn(ErrorMessage.INPUT_NUMBER.toString());
+            logger.info(Message.RETRY_INPUT.toString());
             sc.nextLine();
             return -1;
         }
+
+
         return playerUnitIndex - 1;
     }
 
-    public static int selectComputerUnit(int computerUnitMaxIndex) {
-        int computerUnitIndex = 0;
+    public static boolean losdByDecision(Player player, Player opponent, boolean check) {
 
-        logger.info("{}", Message.SELECT_ENEMY_UNIT);
-        try {
-            computerUnitIndex = sc.nextInt();
-            if (computerUnitIndex < 1 || computerUnitIndex > computerUnitMaxIndex) {
-                throw new IllegalArgumentException();
+
+        boolean isPlayerFlyableAttack = player.canAttackFlyableUnit();
+        boolean isOpponentFlyableUnit = opponent.isFlyableUnit();
+
+
+        if (!isPlayerFlyableAttack && isOpponentFlyableUnit) { // player 공중공격 못하는데 , opponent는 공중유닛 있어
+
+            if (check) {
+                logger.info(Message.PLAYER_DESICION_LOSE.toString());
+            } else {
+                logger.info(Message.OPPONENT_DESICION_LOSE.toString());
             }
-        } catch (IllegalArgumentException e) {
-            logger.warn("{}", Message.INPUT_RANGE_ERROR);
-            logger.info("{}", Message.RETRY_INPUT);
-            sc.nextLine();
-            return -1;
-        } catch (InputMismatchException e) {
-            logger.warn("{}", Message.ONLY_NUMBER);
-            logger.info("{}", Message.RETRY_INPUT);
-            sc.nextLine();
-            return -1;
-        }
-        return computerUnitIndex - 1;
-    }
 
-    public static boolean losdByDecisionPlayer(Player player, Player computer) {
-
-        boolean isFlyableAttackUnit = false;
-
-        for (int i = 0; i < computer.getUnitListSize(); i++) {
-            Unit unit = computer.getUnitByListIndex(i);
-
-            if (unit instanceof Flyable) {
-                isFlyableAttackUnit = true; // 컴퓨터는 나는 유닛 있음
-                break;
-            }
+            return true;
         }
 
-        if (!isFlyableAttackUnit) // 나는 유닛 없으면 판정패 없음
-        {
-            return false;
-        }
-
-        for (int i = 0; i < player.getUnitListSize(); i++) {
-
-            Unit unit = player.getUnitByListIndex(i);
-
-            if (unit instanceof FlyableAttack) // 컴퓨터는 나는 유닛 있고 , 나는 공격할 유닛 있어
-            {
-                return false; // 판정패 아님
-            }
-        }
-
-        logger.info("{}", Message.PLAYER_DESICION_LOSE);
-
-        return true; // 컴퓨터는 나는 유닛 있는데 , 나는 없음 판정패
-
-    }
-
-    public static boolean loseByDecisionComputer(Player player, Player computer) {
-
-        boolean isFlyableAttackUnit = false;
-
-        for (int i = 0; i < player.getUnitListSize(); i++) {
-            Unit unit = player.getUnitByListIndex(i);
-
-            if (unit instanceof Flyable) {
-                isFlyableAttackUnit = true;
-                break;
-            }
-        }
-
-        if (!isFlyableAttackUnit) {
-            return false;
-        }
-
-        for (int i = 0; i < computer.getUnitListSize(); i++) {
-
-            Unit unit = computer.getUnitByListIndex(i);
-
-            if (unit instanceof FlyableAttack) {
-                return false;
-            }
-        }
-
-        logger.info("{}", Message.COMPUTER_DESICION_LOSE);
-
-        return true;
+        return false;
 
     }
 

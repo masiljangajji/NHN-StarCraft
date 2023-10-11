@@ -2,15 +2,9 @@ package org.nhnacademy.view;
 
 public enum Path {
 
-    PROTOS_UNIT_PATH("src/main/java/org/nhnacademy/model/unit/protosUnit/"),
-    ZERG_UNIT_PATH("src/main/java/org/nhnacademy/model/unit/zergUnit/"),
-    TERRAN_UNIT_PATH("src/main/java/org/nhnacademy/model/unit/terranUnit/"),
-
-
-    PROTOS_UNIT_CLASS_PATH("org.nhnacademy.model.unit.protosUnit."),
-    ZERG_UNIT_CLASS_PATH("org.nhnacademy.model.unit.zergUnit."),
-    TERRAN_UNIT_CLASS_PATH("org.nhnacademy.model.unit.terranUnit.");
-
+    PROTOS_UNIT("src/main/resources/ProtosUnit.json"),
+    ZERG_UNIT("src/main/resources/ZergUnit.json"),
+    TERRAN_UNIT("src/main/resources/TerranUnit.json");
     private final String path;
 
 
