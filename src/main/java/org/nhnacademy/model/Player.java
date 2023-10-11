@@ -97,8 +97,7 @@ public class Player {
 
                 JSONObject object = (JSONObject) jsonArray.get(randomIndex);
 
-
-                this.unitList.add(checkUnitType((String) object.get("Type"), (String) object.get("Damage"),
+                this.unitList.add(getUnit((String) object.get("Type"), (String) object.get("Damage"),
                         (String) object.get("Defense"), (String) object.get("Name")));
             }
             return;
@@ -113,8 +112,7 @@ public class Player {
         exit(1);
 
     }
-
-    private Unit checkUnitType(String unitType, String damage, String defense, String name) {
+    private Unit getUnit(String unitType, String damage, String defense, String name) {
 
         Unit unit;
 
@@ -160,4 +158,3 @@ public class Player {
     }
 
 }
-
